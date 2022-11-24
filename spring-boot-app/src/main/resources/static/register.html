@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<script>
+
+    $(function() {
+        $("#Custform").submit(function(event) {
+            event.preventDefault();
+            var form = $(this);
+            var custobj = {
+                name : $("#name").val(),
+                email : $("#email").val(),
+                password1 : $("#password1").val(),
+                password2 : $("#password2").val(),
+                mobileNumber : $("#mobileNumber").val()
+            };
+            
+            var custjson = JSON.stringify(custobj);
+            $.ajax({
+                url : "http://localhost:9090/register",
+                type : "POST",
+                dataType : "json",
+                contentType : "application/json",
+                data : custjson,
+                success : function(response) {
+                    if(response.status == true)
+                        alert("Registration Successful, Registration ID: " + response.registeredCustomerId);
+                    else
+                        alert("Registration Failed");
+                    
+                }
+
+
+
+           })
+        })
+    })
+</script>
+</head>
+<body>
+
+    <form id="Custform">
+        Enter Customer Name: <input id="name" /><br />
+        Enter Email: <input type="email" id="email" /><br /> 
+        Enter Password: <input type="password" id="password" /><br />
+		Re-Enter Password: <input type="password" id="confPassword" /><br />
+        Enter MobileNumber: <input type="number" id="mobileNumber" /><br />
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>
